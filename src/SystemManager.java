@@ -4,7 +4,7 @@
 import java.util.HashMap;
 import java.util.ArrayList;
 
-public class SystemManager {
+public final class SystemManager {
 	private ArrayList<ProcessSystem> systems = new ArrayList<ProcessSystem>();
 	private HashMap<String, ProcessSystem> systemMap = new HashMap<String, ProcessSystem>();
 	private World world;
@@ -34,6 +34,7 @@ public class SystemManager {
 			systems.add(system);
 			systemMap.put(system.getUniqueID(), system);
 		}
+		else System.err.println(system.getUniqueID() + " could not be registered");
 	}
 
 	public void removeSystem(String UID){
@@ -43,6 +44,7 @@ public class SystemManager {
 			systems.remove(temp);
 			systemMap.remove(UID);
 		}
+		else System.out.println(UID + " could not be removed");
 	}
 
 	public ProcessSystem getSystem(String UID){
@@ -50,6 +52,7 @@ public class SystemManager {
 		if(systemExists){
 			return systemMap.get(UID);
 		}
+		else System.out.println(UID + " could not be retrieved");
 		return null;
 	}
 
