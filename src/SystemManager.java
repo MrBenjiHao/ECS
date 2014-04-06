@@ -59,4 +59,8 @@ public final class SystemManager {
 	public World getWorld(){
 		return world;
 	}
+
+	public ArrayList<ProcessSystem> getSystems(){
+		return systems;
+	}
 }

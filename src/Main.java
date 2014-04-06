@@ -57,7 +57,7 @@ public class Main extends Canvas{
 			}
 			else{
 				try{
-					Thread.sleep((long)(1000 * (prevTime - currTime)));
+					Thread.sleep((long) (1000 * (prevTime - currTime)));
 				}
 				catch(Exception e){}
 			}
@@ -69,8 +69,6 @@ public class Main extends Canvas{
 			}
 		}
 	}
-
-	public void FPS(double timer){}
 
 	public void process(){
 	}

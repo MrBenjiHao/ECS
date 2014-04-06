@@ -5,6 +5,31 @@ import java.util.HashMap;
 
 public final class Entity {
 	private HashMap<String, Component> componentMap = new HashMap<String, Component>();
+	private String groupID = "NULL";
+	private String uniqueID = "NULL";
+	private boolean removed = false;
+
+	public void setGroupID(String UID){
+		groupID = UID;
+	}
+
+	public void setUniqueID(String UID){
+		uniqueID = UID;
+	}
+
+	public String getGroupID(){
+		return groupID;
+	}
+
+	public String getUniqueID(){
+		return uniqueID;
+	}
+
+	public void remove(){
+		removed = true;
+	}
+
+	public boolean isRemoved(){return removed;}
 
 	public void addComponent(Component c){
 		boolean compExists = componentMap.containsKey(c.getUniqueID());

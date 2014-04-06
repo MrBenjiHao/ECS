@@ -23,14 +23,21 @@ public final class EntityManager {
 
 	// Figures out which systems are interested in the entity
 	public void integrateEntity(Entity e){
-
+		world.getSystemManager().insertEntity(e);
 	}
 
 	public void removeEntity(Entity e){
-		SystemManager manager = world.getSystemManager();
 		/*
 		Remove entity from all systems, groups, uniques and entities list
+		Entity must have removed set to true
 		*/
+		SystemManager manager = world.getSystemManager();
+		for(ProcessSystem s : manager.getSystems()){
+			s.getEntities().remove(e);
+		}
+		entities.remove(e);
+		if(!e.getGroupID().equals("NULL")) groupMap.get(e.getGroupID()).remove(e);
+		if(!e.getUniqueID().equals("NULL")) uniqueMap.remove(e.getUniqueID());
 	}
 
 	public ArrayList<Entity> retrieveGroup(String UID){
@@ -61,7 +68,10 @@ public final class EntityManager {
 		if(groupExists){
 			//Check if entity has already been assigned to group
 			boolean entityAssigned = groupMap.get(UID).contains(e);
-			if(!entityAssigned) groupMap.get(UID).add(e); 
+			if(!entityAssigned) {
+				e.setGroupID(UID);
+				groupMap.get(UID).add(e); 
+			}
 		}
 		else System.out.println("Could not assign entity to group " + UID);
 	}
@@ -69,10 +79,11 @@ public final class EntityManager {
 	public void assignToUnique(String UID, Entity e){
 		boolean uniqueAssigned = uniqueMap.containsKey(UID);
 		if(!uniqueAssigned){
+			e.setUniqueID(UID);
 			uniqueMap.put(UID, e);
 		}
 		else System.out.println("Could not assigned entity to unique " + UID);
 	}
-	
+
 	public World getWorld(){return world;}
 }
