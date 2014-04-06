@@ -3,7 +3,7 @@
  */
 import java.util.ArrayList;
 
-public class System {
+public class ProcessSystem {
 	private String UID;
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<String> systemComponents = new ArrayList<String>();
@@ -14,7 +14,7 @@ public class System {
 		this.UID = UID;
 	}
 
-	public System(SystemManager systemManager){
+	public ProcessSystem(SystemManager systemManager){
 		this.systemManager = systemManager;
 	}
 

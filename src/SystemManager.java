@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 public class SystemManager {
-	private ArrayList<System> systems = new ArrayList<System>();
-	private HashMap<String, System> systemMap = new HashMap<String, System>();
+	private ArrayList<ProcessSystem> systems = new ArrayList<ProcessSystem>();
+	private HashMap<String, ProcessSystem> systemMap = new HashMap<String, ProcessSystem>();
 	private World world;
 
 	public SystemManager(World world){
@@ -14,21 +14,21 @@ public class SystemManager {
 	}
 
 	public void process(){
-		for(System s : systems){
+		for(ProcessSystem s : systems){
 			s.process();
 		}
 	}
 
 	//Placing entity into appropriate systems
 	public void insertEntity(Entity e){
-		for(System s : systems){
+		for(ProcessSystem s : systems){
 			if(s.checkEntity(e)){
 				s.addEntity(e);
 			}
 		}
 	}
 
-	public void registerSystem(System system){
+	public void registerSystem(ProcessSystem system){
 		boolean systemExists = systemMap.containsKey(system.getUniqueID());
 		if(!systemExists){
 			systems.add(system);
@@ -39,13 +39,13 @@ public class SystemManager {
 	public void removeSystem(String UID){
 		boolean systemExists = systemMap.containsKey(UID);
 		if(systemExists){
-			System temp = systemMap.get(UID);
+			ProcessSystem temp = systemMap.get(UID);
 			systems.remove(temp);
 			systemMap.remove(UID);
 		}
 	}
 
-	public System getSystem(String UID){
+	public ProcessSystem getSystem(String UID){
 		boolean systemExists = systemMap.containsKey(UID);
 		if(systemExists){
 			return systemMap.get(UID);
