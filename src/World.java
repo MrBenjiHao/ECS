@@ -6,10 +6,8 @@ public class World {
     private EntityManager entityManager;
 
     public World(){
-    }
-
-    public enum SystemType{
-        PROCESS, RENDER
+        systemManager = new SystemManager(this);
+        entityManager = new EntityManager(this);
     }
 
     public SystemManager getSystemManager(){
