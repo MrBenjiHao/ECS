@@ -28,12 +28,7 @@ public final class SystemManager {
 
 	//Placing entity into appropriate processSystems
 	public void insertEntity(Entity e){
-		for(ProcessSystem s : processSystems){
-			if(s.checkEntity(e)){
-				s.addEntity(e);
-			}
-		}
-		for(ProcessSystem s : renderSystems){
+		for(ProcessSystem s : systemMap.values()){
 			if(s.checkEntity(e)){
 				s.addEntity(e);
 			}
@@ -83,5 +78,9 @@ public final class SystemManager {
 
 	public ArrayList<ProcessSystem> getRenderSystems(){
 		return renderSystems;
+	}
+
+	public HashMap<String, ProcessSystem> getSystemMap(){
+		return systemMap;
 	}
 }

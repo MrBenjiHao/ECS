@@ -17,13 +17,12 @@ public final class EntityManager {
 	}
 
 	public Entity createEntity(){
-		Entity e = new Entity();
-		entities.add(e);
-		return e;
+		return new Entity();
 	}
 
 	// Figures out which systems are interested in the entity
 	public void integrateEntity(Entity e){
+		entities.add(e);
 		world.getSystemManager().insertEntity(e);
 	}
 
@@ -35,10 +34,7 @@ public final class EntityManager {
 		Then this method will take care of removing the entity from the world
 		*/
 		SystemManager manager = world.getSystemManager();
-		for(ProcessSystem s : manager.getProcessSystems()){
-			s.getEntities().remove(e);
-		}
-		for(ProcessSystem s : manager.getRenderSystems()){
+		for(ProcessSystem s : manager.getSystemMap().values()){
 			s.getEntities().remove(e);
 		}
 		entities.remove(e);

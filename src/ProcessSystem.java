@@ -7,7 +7,7 @@ public class ProcessSystem {
 	private static String UID = "NULL"; // Maybe a default UID?
 	private SystemType systemType = SystemType.PROCESS; // PROCESS by default
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
-	private ArrayList<String> systemComponents = new ArrayList<String>();
+	public ArrayList<String> systemComponents = new ArrayList<String>();
 
 	protected SystemManager systemManager;
 
@@ -33,13 +33,15 @@ public class ProcessSystem {
 	}
 
 	public boolean checkEntity(Entity e){
+		boolean valid = false;
 		for(String s : systemComponents){
-			if(!e.hasComponent(s)) return false;
-		}	
-		return true;
+			valid = e.hasComponent(s);
+			if(valid == false) return valid;
+		}
+		return valid;
 	}
 
-	protected void setSystemComponents(String UID){
+	protected void registerComponent(String UID){
 		if(!systemComponents.contains(UID)) systemComponents.add(UID);
 	}
 
@@ -56,6 +58,8 @@ public class ProcessSystem {
 	}
 
 	public void addEntity(Entity e){
-		if(!entities.contains(e)) entities.add(e);
+		if(!entities.contains(e)){
+			entities.add(e);
+		}
 	}
 }

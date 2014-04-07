@@ -26,9 +26,7 @@ public final class Entity {
 	}
 
 	public void remove(){
-		if(!removed){
-			removed = true;
-		}
+		if(!removed) removed = true;
 	}
 
 	public boolean isRemoved(){return removed;}

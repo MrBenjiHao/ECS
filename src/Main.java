@@ -31,15 +31,28 @@ public class Main extends Canvas{
 		EntityManager entityManager = gameWorld.getEntityManager();
 
 		systemManager.registerSystem(new MovementSystem());
+		systemManager.registerSystem(new RenderSystem());
 
 		entityManager.registerGroup("TEST_GROUP");
 
 		Entity e = entityManager.createEntity();
-		e.addComponent(new Velocity(0, 0, 2, 2));
+
+		Velocity v = new Velocity(0, 0, 3, 2);
+		RenderComponent r = new RenderComponent(10, 10);
+
+		e.addComponent(v);
+		e.addComponent(r);
 		entityManager.integrateEntity(e);
 
 		entityManager.assignToGroup("TEST_GROUP", e);
 		entityManager.assignToUnique("TEST_UNIQUE", e);
+
+		/*
+		Possible solutions
+		ComponentManager
+			- Register components before using
+			- 
+		*/
 	}
 
 	public void start(){
@@ -86,16 +99,8 @@ public class Main extends Canvas{
 		}
 	}
 
-	int x = 0;
-
 	public void process(){
 		gameWorld.process();
-		EntityManager m = gameWorld.getEntityManager();
-		Entity e = m.getUniqueEntity("TEST_UNIQUE");
-
-		Velocity v = (Velocity) e.getComponent(Velocity.getUniqueID());
-
-		x = v.x;
 	}
 
 	public void render(){
@@ -105,9 +110,6 @@ public class Main extends Canvas{
 
 		//Render here
 		gameWorld.render();
-
-		g.setColor(Color.WHITE);
-		g.fillRect(x, 50, 50, 50);
 
 		g.dispose();
 		bufferStrategy.show();
