@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 public final class SystemManager {
-	private ArrayList<ProcessSystem> systems = new ArrayList<ProcessSystem>();
+	private ArrayList<ProcessSystem> processSystems = new ArrayList<ProcessSystem>();
+	private ArrayList<ProcessSystem> renderSystems = new ArrayList<ProcessSystem>();
 	private HashMap<String, ProcessSystem> systemMap = new HashMap<String, ProcessSystem>();
 	private World world;
 
@@ -14,14 +15,25 @@ public final class SystemManager {
 	}
 
 	public void process(){
-		for(ProcessSystem s : systems){
+		for(ProcessSystem s : processSystems){
 			s.process();
 		}
 	}
 
-	//Placing entity into appropriate systems
+	public void render(){
+		for(ProcessSystem s : renderSystems){
+			s.process();
+		}
+	}
+
+	//Placing entity into appropriate processSystems
 	public void insertEntity(Entity e){
-		for(ProcessSystem s : systems){
+		for(ProcessSystem s : processSystems){
+			if(s.checkEntity(e)){
+				s.addEntity(e);
+			}
+		}
+		for(ProcessSystem s : renderSystems){
 			if(s.checkEntity(e)){
 				s.addEntity(e);
 			}
@@ -31,17 +43,20 @@ public final class SystemManager {
 	public void registerSystem(ProcessSystem system){
 		boolean systemExists = systemMap.containsKey(system.getUniqueID());
 		if(!systemExists){
-			systems.add(system);
+			if(system.getSystemType() == ProcessSystem.SystemType.PROCESS) processSystems.add(system);
+			else if(system.getSystemType() == ProcessSystem.SystemType.RENDER) renderSystems.add(system);
 			systemMap.put(system.getUniqueID(), system);
+			system.setSystemManager(this);
 		}
-		else System.err.println(system.getUniqueID() + " could not be registered");
+		else System.out.println(system.getUniqueID() + " could not be registered");
 	}
 
 	public void removeSystem(String UID){
 		boolean systemExists = systemMap.containsKey(UID);
 		if(systemExists){
 			ProcessSystem temp = systemMap.get(UID);
-			systems.remove(temp);
+			if(temp.getSystemType() == ProcessSystem.SystemType.PROCESS) processSystems.remove(temp);
+			else if(temp.getSystemType() == ProcessSystem.SystemType.RENDER) renderSystems.remove(temp);
 			systemMap.remove(UID);
 		}
 		else System.out.println(UID + " could not be removed");
@@ -50,7 +65,9 @@ public final class SystemManager {
 	public ProcessSystem getSystem(String UID){
 		boolean systemExists = systemMap.containsKey(UID);
 		if(systemExists){
-			return systemMap.get(UID);
+			ProcessSystem temp = systemMap.get(UID);
+			if(temp.getSystemType() == ProcessSystem.SystemType.PROCESS) return temp;
+			else if(temp.getSystemType() == ProcessSystem.SystemType.RENDER) return temp;
 		}
 		else System.out.println(UID + " could not be retrieved");
 		return null;
@@ -60,7 +77,11 @@ public final class SystemManager {
 		return world;
 	}
 
-	public ArrayList<ProcessSystem> getSystems(){
-		return systems;
+	public ArrayList<ProcessSystem> getProcessSystems(){
+		return processSystems;
+	}
+
+	public ArrayList<ProcessSystem> getRenderSystems(){
+		return renderSystems;
 	}
 }

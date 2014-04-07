@@ -4,8 +4,6 @@ import java.awt.image.BufferStrategy;
 
 public class Main extends Canvas{
 	public static void main(String[] args){
-		World gameWorld = new World();
-
 		Main main = new Main();
 
 		JFrame window = new JFrame("ECS");
@@ -20,10 +18,28 @@ public class Main extends Canvas{
 	}
 
 	private BufferStrategy bufferStrategy;
+	private static Graphics2D g;
+	private World gameWorld = new World();
+
 
 	public Main(){
 		setPreferredSize(new Dimension(500, 500));
 		setIgnoreRepaint(true);
+
+		// TEST RUN
+		SystemManager systemManager = gameWorld.getSystemManager();
+		EntityManager entityManager = gameWorld.getEntityManager();
+
+		systemManager.registerSystem(new MovementSystem());
+
+		entityManager.registerGroup("TEST_GROUP");
+
+		Entity e = entityManager.createEntity();
+		e.addComponent(new Velocity(0, 0, 2, 2));
+		entityManager.integrateEntity(e);
+
+		entityManager.assignToGroup("TEST_GROUP", e);
+		entityManager.assignToUnique("TEST_UNIQUE", e);
 	}
 
 	public void start(){
@@ -39,7 +55,7 @@ public class Main extends Canvas{
 		double currTime;
 		double prevTime = System.nanoTime() / NANO_TO_SEC;
 		double FPSTIMER = System.nanoTime();
-		double maxTimeDiff = 0.5;
+		double maxTimeDiff = 500.0 / 1000.0;
 		double delta = 1.0 / 60.0;
 		double processes = 0, frames = 0;
 
@@ -70,24 +86,38 @@ public class Main extends Canvas{
 		}
 	}
 
+	int x = 0;
+
 	public void process(){
+		gameWorld.process();
+		EntityManager m = gameWorld.getEntityManager();
+		Entity e = m.getUniqueEntity("TEST_UNIQUE");
+
+		Velocity v = (Velocity) e.getComponent(Velocity.getUniqueID());
+
+		x = v.x;
 	}
 
 	public void render(){
-		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
-		g.setColor(Color.BLACK);
+		g = (Graphics2D) bufferStrategy.getDrawGraphics();
+		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, 500, 500);
 
 		//Render here
-		g.setColor(Color.BLUE);
-		g.fillRect(50, 50, 10, 10);
+		gameWorld.render();
+
+		g.setColor(Color.WHITE);
+		g.fillRect(x, 50, 50, 50);
 
 		g.dispose();
 		bufferStrategy.show();
 	}
+
+	public static Graphics2D obtainGraphics(){return g;}
 	/*
-	Problem to resolve
+	Problems to resolve
 		- Implement clean way of adding entities to systems
-		- Implement the refreshing of systems in case of an entity having it's components altered
+		- Implement a way for rendering systems to have continuous access to the graphics
+			- render systems will need to use the static graphics context of the main class
 	*/
 }

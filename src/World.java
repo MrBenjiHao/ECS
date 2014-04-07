@@ -14,6 +14,10 @@ public final class World {
         systemManager.process();
     }
 
+    public void render(){
+        systemManager.render();
+    }
+
     public SystemManager getSystemManager(){
         return systemManager;
     }

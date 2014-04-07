@@ -9,6 +9,7 @@ public final class EntityManager {
 	private HashMap<String, ArrayList<Entity>> groupMap = new HashMap<String, ArrayList<Entity>>();
 	private HashMap<String, Entity> uniqueMap = new HashMap<String, Entity>();
 
+
 	private World world;
 
 	public EntityManager(World world){
@@ -30,9 +31,14 @@ public final class EntityManager {
 		/*
 		Remove entity from all systems, groups, uniques and entities list
 		Entity must have removed set to true
+		Once entity is set to be removed, add it to a queue
+		Then this method will take care of removing the entity from the world
 		*/
 		SystemManager manager = world.getSystemManager();
-		for(ProcessSystem s : manager.getSystems()){
+		for(ProcessSystem s : manager.getProcessSystems()){
+			s.getEntities().remove(e);
+		}
+		for(ProcessSystem s : manager.getRenderSystems()){
 			s.getEntities().remove(e);
 		}
 		entities.remove(e);
@@ -40,14 +46,14 @@ public final class EntityManager {
 		if(!e.getUniqueID().equals("NULL")) uniqueMap.remove(e.getUniqueID());
 	}
 
-	public ArrayList<Entity> retrieveGroup(String UID){
+	public ArrayList<Entity> getGroup(String UID){
 		boolean groupExists = groupMap.containsKey(UID);
 		if(groupExists) return groupMap.get(UID);
 		else System.out.println(UID + " could not be retrieved");
 		return null;
 	}
 
-	public Entity retrieveUniqueEntity(String UID){
+	public Entity getUniqueEntity(String UID){
 		boolean entityExists = uniqueMap.containsKey(UID);
 		if(entityExists) return uniqueMap.get(UID);
 		else System.out.println(UID + " could not be retrieved");
@@ -72,6 +78,7 @@ public final class EntityManager {
 				e.setGroupID(UID);
 				groupMap.get(UID).add(e); 
 			}
+			else System.out.println("Entity already assigned to " + UID);
 		}
 		else System.out.println("Could not assign entity to group " + UID);
 	}

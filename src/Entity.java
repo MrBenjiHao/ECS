@@ -26,7 +26,9 @@ public final class Entity {
 	}
 
 	public void remove(){
-		removed = true;
+		if(!removed){
+			removed = true;
+		}
 	}
 
 	public boolean isRemoved(){return removed;}
@@ -37,10 +39,10 @@ public final class Entity {
 		else System.out.println(c.getUniqueID() + " could not be added");
 	}
 
-	public void removeComponent(Component c){
-		boolean compExists = componentMap.containsKey(c.getUniqueID());
-		if(compExists) componentMap.remove(c.getUniqueID());
-		else System.out.println(c.getUniqueID() + " could not be removed");
+	public void removeComponent(String UID){
+		boolean compExists = componentMap.containsKey(UID);
+		if(compExists) componentMap.remove(UID);
+		else System.out.println(UID + " could not be removed");
 	}
 
 	public Component getComponent(String UID){
