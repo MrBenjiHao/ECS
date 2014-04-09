@@ -9,7 +9,6 @@ public final class EntityManager {
 	private HashMap<String, ArrayList<Entity>> groupMap = new HashMap<String, ArrayList<Entity>>();
 	private HashMap<String, Entity> uniqueMap = new HashMap<String, Entity>();
 
-
 	private World world;
 
 	public EntityManager(World world){
@@ -21,7 +20,7 @@ public final class EntityManager {
 	}
 
 	// Figures out which systems are interested in the entity
-	public void integrateEntity(Entity e){
+	public void addEntity(Entity e){
 		entities.add(e);
 		world.getSystemManager().insertEntity(e);
 	}

@@ -33,26 +33,35 @@ public class Main extends Canvas{
 		systemManager.registerSystem(new MovementSystem());
 		systemManager.registerSystem(new RenderSystem());
 
-		entityManager.registerGroup("TEST_GROUP");
-
 		Entity e = entityManager.createEntity();
+		e.addComponent(new Velocity(30, 0, 3, 3));
+		e.addComponent(new RenderComponent(50, 50, Color.WHITE));
+		entityManager.addEntity(e);
 
-		Velocity v = new Velocity(0, 0, 3, 2);
-		RenderComponent r = new RenderComponent(10, 10);
+		e = entityManager.createEntity();
+		e.addComponent(new Velocity(10, 0, 1, 1));
+		e.addComponent(new RenderComponent(50, 50, Color.BLACK));
+		entityManager.addEntity(e);
 
-		e.addComponent(v);
-		e.addComponent(r);
-		entityManager.integrateEntity(e);
+		e = entityManager.createEntity();
+		e.addComponent(new Velocity(20, 0, 2, 2));
+		e.addComponent(new RenderComponent(50, 50, Color.BLUE));
+		entityManager.addEntity(e);
 
-		entityManager.assignToGroup("TEST_GROUP", e);
-		entityManager.assignToUnique("TEST_UNIQUE", e);
+		e = entityManager.createEntity();
+		e.addComponent(new Velocity(40, 0, 4, 4));
+		e.addComponent(new RenderComponent(50, 50, Color.RED));
+		entityManager.addEntity(e);
 
-		/*
-		Possible solutions
-		ComponentManager
-			- Register components before using
-			- 
-		*/
+		e = entityManager.createEntity();
+		e.addComponent(new Velocity(50, 0, 5, 5));
+		e.addComponent(new RenderComponent(50, 50, Color.MAGENTA));
+		entityManager.addEntity(e);
+
+		e = entityManager.createEntity();
+		e.addComponent(new Velocity(60, 0, 6, 6));
+		e.addComponent(new RenderComponent(50, 50, Color.ORANGE));
+		entityManager.addEntity(e);
 	}
 
 	public void start(){
@@ -68,14 +77,14 @@ public class Main extends Canvas{
 		double currTime;
 		double prevTime = System.nanoTime() / NANO_TO_SEC;
 		double FPSTIMER = System.nanoTime();
-		double maxTimeDiff = 500.0 / 1000.0;
+		double maxTimeDiff = 100.0 / 1000.0;
 		double delta = 1.0 / 60.0;
 		double processes = 0, frames = 0;
 
 		while(true){
 			currTime = System.nanoTime() / NANO_TO_SEC;
 			if(currTime - prevTime > maxTimeDiff) prevTime = currTime;
-			if(currTime > prevTime){
+			if(currTime >= prevTime){
 				process();
 				processes++;
 				prevTime += delta;
@@ -116,10 +125,4 @@ public class Main extends Canvas{
 	}
 
 	public static Graphics2D obtainGraphics(){return g;}
-	/*
-	Problems to resolve
-		- Implement clean way of adding entities to systems
-		- Implement a way for rendering systems to have continuous access to the graphics
-			- render systems will need to use the static graphics context of the main class
-	*/
 }

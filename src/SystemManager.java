@@ -37,7 +37,7 @@ public final class SystemManager {
 
 	public void registerSystem(ProcessSystem system){
 		boolean systemExists = systemMap.containsKey(system.getUniqueID());
-		if(!systemExists){
+		if(!systemExists && !system.getUniqueID().equals("NULL")){
 			if(system.getSystemType() == ProcessSystem.SystemType.PROCESS) processSystems.add(system);
 			else if(system.getSystemType() == ProcessSystem.SystemType.RENDER) renderSystems.add(system);
 			systemMap.put(system.getUniqueID(), system);

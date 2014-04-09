@@ -4,7 +4,7 @@
 import java.util.ArrayList;
 
 public class ProcessSystem {
-	private static String UID = "NULL"; // Maybe a default UID?
+	private String UID = "NULL"; // Maybe a default UID?
 	private SystemType systemType = SystemType.PROCESS; // PROCESS by default
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	public ArrayList<String> systemComponents = new ArrayList<String>();
@@ -47,7 +47,7 @@ public class ProcessSystem {
 
 	public ArrayList<Entity> getEntities(){return entities;}
 
-	public static String getUniqueID(){return UID;}
+	public String getUniqueID(){return UID;}
 
 	public void setSystemManager(SystemManager s){
 		this.systemManager = s;

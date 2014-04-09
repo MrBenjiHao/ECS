@@ -1,18 +1,13 @@
-import java.awt.*;
+import java.awt.Color;
 
 public class RenderComponent extends Component{
 	public int sizeX, sizeY;
+	public Color c;
 
-	public RenderComponent(int x, int y){
+	public RenderComponent(int x, int y, Color c){
 		this.sizeX = x;
 		this.sizeY = y;
+		this.c = c;
 		setUniqueID("RENDER_COMPONENT");
-	}
-
-	public void process(Entity e, Graphics2D g){
-		Velocity v = (Velocity) e.getComponent(Velocity.getUniqueID());
-
-		g.setColor(Color.WHITE);
-		g.fillRect(v.x, v.y, sizeX, sizeY);
 	}
 }
