@@ -13,9 +13,9 @@ public class MovementSystem extends ProcessSystem{
 			Velocity v = (Velocity) e.getComponent(velocityID);
 			if(v.isEnabled()){
 				v.x += v.dx;
-				v.y += v.dy;
+				//v.y += v.dy;
 				if(v.x > 450 || v.x < 0) v.dx *= -1;
-				if(v.y > 450 || v.y < 0) v.dy *= -1;
+				//if(v.y > 450 || v.y < 0) v.dy *= -1;
 			} 
 		}
 	}
