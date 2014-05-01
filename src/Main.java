@@ -122,7 +122,7 @@ public class Main extends Canvas{
 			}
 
 			if(System.nanoTime() - FPSTIMER > 1000000000.0){
-				//System.out.println("Process: " + processes + " FPS: " + frames);
+				System.out.println("Process: " + (1000.0 / processes) + " FPS: " + (1000.0 / frames));
 				processes = frames = 0;
 				FPSTIMER += 1000000000.0;
 			}

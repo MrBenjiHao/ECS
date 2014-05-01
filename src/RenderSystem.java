@@ -23,7 +23,7 @@ public class RenderSystem extends ProcessSystem{
 			Velocity v = (Velocity) e.getComponent(velocityID);
 			RenderComponent r = (RenderComponent) e.getComponent(renderID);
 
-			if((rand.nextInt() * 100) > 50 && ticks % 30 == 0) r.setEnabled(!r.isEnabled());
+			// if((rand.nextInt() * 100) > 50 && ticks % 30 == 0) r.setEnabled(!r.isEnabled());
 
 			if(r.isEnabled()){
 				g.setColor(r.c);
